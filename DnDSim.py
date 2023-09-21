@@ -70,14 +70,14 @@ class DnDSim:
             print("Error: character list is empty")
             return
         try:
-            index = input("which character? ")
+            index = input("which character?")
             index = int(index)
             if self.enemyList[index].turn == True:
                 self.nextTurn()
             self.enemyList.pop(index)
             self.enemyList.sort(key=Character.getInit, reverse= True)
         except:
-            print("Error: expected int value")
+            print("Error: index is not valid")
     
     def hurtCharacter(self):
         if not self.enemyList:
@@ -155,6 +155,9 @@ class DnDSim:
             print("Error: expected int amount")
             self.armorAdd()
         
+    def reset(self):
+        self.enemyList.clear()
+
     def processInput(self):
         command = input("Enter your command: ")
         if command == "quit":
@@ -168,12 +171,15 @@ class DnDSim:
             "start" : self.startCombat,
             "next" : self.nextTurn,
             "armorb" : self.armorBreak,
-            "armora" : self.armorAdd
+            "armora" : self.armorAdd,
+            "reset" : self.reset
         }
     
         command = commandDic.get(command, self.invalidCommand)
         command()
         return True
+    
+   
     
 
     def run(self):
@@ -187,6 +193,7 @@ class DnDSim:
         print("armorb: removes armor from a character")
         print("start: starts combat and begins turn displaying")
         print("next: moves the marker to the next character's turn")
+        print("reset: removes all characters and stops combat")
         print("quit: quits the program\n")
         valid = True
         while valid:
